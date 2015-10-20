@@ -8,13 +8,15 @@ var concatCss = require('gulp-concat-css');
 var vulcanize = require('gulp-vulcanize');
 var browserSync = require('browser-sync').create();
 
+var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js','app/js/*.js', 'bower_components/jquery/dist/jquery.min.js'];
+
 gulp.task('clean', function(){
   return gulp.src('dist', {read: false})
         .pipe(clean());
 });
 
 gulp.task('scriptTask', function () {
-  return gulp.src('app/js/*.js') //get all js files under the src
+  return gulp.src(scriptFiles) //get all js files under the src
       .pipe(sourceMaps.init()) //initialize source mapping
       .pipe(babel()) //transpile
       .pipe(concat('scripts.js'))
