@@ -1,0 +1,21 @@
+{
+  "name": "earthquake-monitor",
+  "version": "0.0.1",
+  "authors": [
+    "Tony Edwards <tony@plymouthsoftware.com>"
+  ],
+  "description": "A gloabal earthquake monitoring app",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "~0.7.15",
+    "google-map": "GoogleWebComponents/google-map#~1.1.4"
+  }
+}

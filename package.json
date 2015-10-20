@@ -1,0 +1,27 @@
+{
+  "name": "earthquake-monitor",
+  "version": "0.0.1",
+  "description": "A gloabal earthquake monitoring app",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.3.0",
+    "gulp-concat": "^2.6.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.9.11",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.3.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat-css": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-vulcanize": "^6.0.1",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tony Edwards",
+  "license": "MIT"
+}
