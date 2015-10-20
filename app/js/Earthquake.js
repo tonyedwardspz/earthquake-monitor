@@ -12,10 +12,6 @@ class Earthquake {
     this.type = data.type;
   }
 
-  getDescription() {
-    return 'There was a ' + this.magnitude + ' magnitude earthquake ' + this.place + ' on the ' + this.getDate(this.time);
-  }
-
   getDate(d){
     var date = new Date(d);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
