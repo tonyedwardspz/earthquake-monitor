@@ -8,7 +8,12 @@ var concatCss = require('gulp-concat-css');
 var vulcanize = require('gulp-vulcanize');
 var browserSync = require('browser-sync').create();
 
-var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js','app/js/*.js', 'bower_components/jquery/dist/jquery.min.js'];
+
+var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js', 'bower_components/jquery/dist/jquery.min.js', 'app/js/*.js'];
+var styleFiles  = ['app/css/*.css'];
+var components  = ['bower_components/google-map/google-map.html'];
+var htmlFiles   = ['app/*.html'];
+
 
 gulp.task('clean', function(){
   return gulp.src('dist', {read: false})
@@ -25,7 +30,7 @@ gulp.task('scriptTask', function () {
 });
 
 gulp.task('styles', function() {
-  return gulp.src('app/css/*.css') //get all js files under the src
+  return gulp.src(styleFiles) //get all js files under the src
       .pipe(sourceMaps.init()) //initialize source mapping
       .pipe(concatCss('style.css'))
       .pipe(sourceMaps.write('.')) //write source maps
@@ -33,12 +38,12 @@ gulp.task('styles', function() {
 });
 
 gulp.task('copy', function () {
-  return gulp.src('app/*.html')
+  return gulp.src(htmlFiles)
       .pipe(gulp.dest('dist'));
 });
 
 gulp.task('vulcanizeFiles', function () {
-    return gulp.src('bower_components/google-map/google-map.html')
+    return gulp.src(components)
         .pipe(vulcanize({
             abspath: '',
             excludes: [],
@@ -47,6 +52,11 @@ gulp.task('vulcanizeFiles', function () {
         .pipe(gulp.dest('dist/components/'));
 });
 
+// Watch tasks
+gulp.task('js-watch', ['scriptTask'], browserSync.reload);
+gulp.task('css-watch', ['styles'], browserSync.reload);
+gulp.task('html-watch', ['copy'], browserSync.reload);
+
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
@@ -54,7 +64,9 @@ gulp.task('browser-sync', function() {
         }
     });
 
-    gulp.watch('dist/*.html').on('change', browserSync.reload);
+    gulp.watch(htmlFiles, ['html-watch']);
+    gulp.watch(styleFiles, ['css-watch']);
+    gulp.watch(scriptFiles, ['js-watch']);
 });
 
 gulp.task('serve', ['clean'], function (callback) {
