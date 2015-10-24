@@ -16,8 +16,7 @@ var populateUI = function(data) {
 };
 
 var displayLargestQuake = function(){
-  var largestYet = Earthquake.getLargestQuake(earthQuakes);
-  $("#largestQuake").append("BIGGEST RECENT QUAKE: " + largestYet.getDescription());
+  $("#largestQuake").append("BIGGEST RECENT QUAKE: " + Earthquake.getLargestQuake(earthQuakes));
 };
 
 var displayData = function(){
