@@ -9,9 +9,11 @@ var vulcanize = require('gulp-vulcanize');
 var browserSync = require('browser-sync').create();
 
 
-var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js', 'bower_components/jquery/dist/jquery.min.js', 'app/js/*.js'];
+var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
+                   'bower_components/jquery/dist/jquery.min.js', 'compiled/*.js',
+                   'bower_components/promise-polyfill/Promise.js'];
 var styleFiles  = ['app/css/*.css'];
-var components  = ['bower_components/google-map/google-map.html'];
+var components  = ['app/elements/earthquake-map/earthquake-map.html'];
 var htmlFiles   = ['app/*.html'];
 
 
@@ -20,21 +22,27 @@ gulp.task('clean', function(){
         .pipe(clean());
 });
 
-gulp.task('scriptTask', function () {
+gulp.task('scripts',['babel', 'clean'], function () {
   return gulp.src(scriptFiles) //get all js files under the src
       .pipe(sourceMaps.init()) //initialize source mapping
-      .pipe(babel()) //transpile
       .pipe(concat('scripts.js'))
       .pipe(sourceMaps.write('.')) //write source maps
       .pipe(gulp.dest('dist/js/')); //pipe to the destination folder
 });
 
-gulp.task('styles', function() {
-  return gulp.src(styleFiles) //get all js files under the src
-      .pipe(sourceMaps.init()) //initialize source mapping
+gulp.task('babel', function () {
+  return gulp.src('app/js/*.js')
+      .pipe(babel())
+      .pipe(concat('babel.js'))
+      .pipe(gulp.dest('compiled/'));
+});
+
+gulp.task('styles',['clean'], function() {
+  return gulp.src(styleFiles)
+      .pipe(sourceMaps.init())
       .pipe(concatCss('style.css'))
-      .pipe(sourceMaps.write('.')) //write source maps
-      .pipe(gulp.dest('dist/css/')); //pipe to the destination folder
+      .pipe(sourceMaps.write('.'))
+      .pipe(gulp.dest('dist/css/'));
 });
 
 gulp.task('copy', function () {
@@ -53,9 +61,10 @@ gulp.task('vulcanizeFiles', function () {
 });
 
 // Watch tasks
-gulp.task('js-watch', ['scriptTask'], browserSync.reload);
+gulp.task('js-watch', ['scripts'], browserSync.reload);
 gulp.task('css-watch', ['styles'], browserSync.reload);
 gulp.task('html-watch', ['copy'], browserSync.reload);
+gulp.task('component-watch', ['vulcanizeFiles'], browserSync.reload);
 
 gulp.task('browser-sync', function() {
     browserSync.init({
@@ -67,11 +76,12 @@ gulp.task('browser-sync', function() {
     gulp.watch(htmlFiles, ['html-watch']);
     gulp.watch(styleFiles, ['css-watch']);
     gulp.watch(scriptFiles, ['js-watch']);
+    gulp.watch(components, ['component-watch']);
 });
 
 gulp.task('serve', ['clean'], function (callback) {
   runSequence(
-    ['scriptTask', 'styles'],
+    ['scripts', 'styles'],
     'vulcanizeFiles',
     'copy',
     'browser-sync',
