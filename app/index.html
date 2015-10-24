@@ -12,21 +12,69 @@
   </head>
   <body>
     <div class="container">
-      <!-- Example row of columns -->
+
       <div class="row">
         <div class="col-md-12">
           <h1>Earthquake Data</h1>
           <span id="largestQuake"></span>
         </div>
 
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="panel bg-blue-400">
+            <div class="panel-body">
+                <div class="pull-left">
+                  <div id="one-hour">---</div>
+                  <div><i class="ion-plus-round"></i> LAST HOUR</div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<div class="panel bg-blue-400">
+						<div class="panel-body">
+								<div class="pull-left">
+									<div id="one-day">---</div>
+									<div><i class="ion-plus-round"></i> LAST DAY</div>
+								</div>
+						</div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<div class="panel bg-blue-400">
+						<div class="panel-body">
+								<div class="pull-left">
+									<div id="seven-days">---</div>
+									<div><i class="ion-plus-round"></i> LAST 7 DAYS</div>
+								</div>
+						</div>
+          </div>
+        </div>
+
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+					<div class="panel bg-blue-400">
+						<div class="panel-body">
+								<div class="pull-left">
+                  <div id="thirty-days">---</div>
+									<div><i class="ion-plus-round"></i> LAST 30 DAYS</div>
+								</div>
+						</div>
+          </div>
+        </div>
+
+
         <div class="col-md-12">
           <earthquake-map></earthquake-map>
         </div>
 
+
         <div class="col-md-12">
           <h2>Latest Earthquakes</h2>
           <div id="output"></div>
-       </div>
+        </div>
+
       </div>
       <hr>
 
@@ -34,7 +82,7 @@
         <p>By <a href="http://purelywebdesign.co.uk" title="Tony Edwards">Tony Edwards</a>.
            Data from <a href="http://earthquake.usgs.gov" title="Earthquakes @ USGS">usgs.gov</a>.</p>
       </footer>
-    </div> <!-- /container -->
+    </div>
 
   </body>
 </html>
