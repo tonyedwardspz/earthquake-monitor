@@ -7,17 +7,35 @@
     <script src="js/scripts.js"></script>
 
     <link href="css/style.css" type="text/css" rel="stylesheet">
-    <link href="components/google-map.html" rel="import">
+    <link href="components/earthquake-map.html" rel="import">
 
   </head>
   <body>
-    <h1>Earthquake Data</h1>
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Earthquake Data</h1>
+          <span id="largestQuake"></span>
+        </div>
 
-    <div id="largestQuake"></div>
+        <div class="col-md-12">
+          <earthquake-map></earthquake-map>
+        </div>
 
-    <google-map latitude="22" longitude="0" zoom="2"></google-map>
+        <div class="col-md-12">
+          <h2>Latest Earthquakes</h2>
+          <div id="output"></div>
+       </div>
 
-    <div id="output"></div>
+      </div>
+      <hr>
+
+      <footer>
+        <p>By <a href="http://purelywebdesign.co.uk" title="Tony Edwards">Tony Edwards</a>.
+           Data from <a href="http://earthquake.usgs.gov" title="Earthquakes @ USGS">usgs.gov</a>.</p>
+      </footer>
+    </div> <!-- /container -->
 
   </body>
 </html>
