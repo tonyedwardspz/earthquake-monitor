@@ -52,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // then return for internal use.
       processData: function(data){
         var earthQuakes = [];
-        var json = CSV2JSON(data);
+        var json = Helper.CSV2JSON(data);
         var earthQuakes = JSON.parse(json);
         populateUI(json);
         earthQuakes.pop();
