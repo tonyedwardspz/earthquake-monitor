@@ -12,6 +12,15 @@ class Earthquake {
     this.type = data.type;
   }
 
+  getDescription(){
+    return 'There was a ' + this.magnitude + ' magnitude earthquake ' + this.place + ' on the ' + this.getDate(this.time);
+  }
+
+  getMapMarker() {
+    var marker = `<google-map-marker latitude="37.779" longitude="-122.3892"></google-map-marker>`;
+    return marker;
+  }
+
   getDate(d){
     var date = new Date(d);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -24,7 +33,6 @@ class Earthquake {
   }
 
   addOrd(n) {
-    // jshint elision: true
     var ords = [,'st','nd','rd'];
     var m = n%100;
     return n + ((m > 10 && m < 14)? 'th' : ords[m%10] || 'th');

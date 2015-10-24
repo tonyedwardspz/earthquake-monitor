@@ -1,0 +1,64 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/google-map/google-map.html">
+
+<dom-module id="earthquake-map">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax auto
+      url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv"
+      handle-as="text/plain"
+      last-response="{{data}}"></iron-ajax>
+
+    <google-map id="main-map" latitude="22" longitude="0" zoom="2" min-zoom="2">
+      <template is='dom-repeat' items="[[earthquakes]]">
+        <google-map-marker latitude="[[item.latitude]]" longitude="[[item.longitude]]">
+          <img src="http://placekitten.com/200/300" alt="place kitten!">
+          <span>[[item.place]]</span>
+        </google-map-marker>
+      </template>
+    </google-map>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'earthquake-map',
+
+      properties: {
+        data: {},
+        earthquakes: {
+          computed: 'processData(data)'
+        }
+      },
+      // Process data from ajax-call. Return to main app for processing and
+      // then return for internal use.
+      processData: function(data){
+        var earthQuakes = [];
+        var json = CSV2JSON(data);
+        var earthQuakes = JSON.parse(json);
+        populateUI(json);
+        earthQuakes.pop();
+        return earthQuakes
+      }
+    });
+  })();
+  </script>
+</dom-module>

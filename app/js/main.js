@@ -1,8 +1,20 @@
 var earthQuakes = [];
 
 $(document).ready(function(){
-  retrieveData();
+  // getEarthQuakes();
 });
+
+var populateUI = function(data) {
+  // this.earthQuakes = data;
+
+  $(jQuery.parseJSON(data)).each(function() {
+    earthQuakes.push(new Earthquake(this));
+  });
+  earthQuakes.pop();
+
+  displayLargestQuake();
+  displayData();
+};
 
 var displayLargestQuake = function(){
   var largestYet;
@@ -28,19 +40,20 @@ var displayData = function(){
   }
 };
 
-var retrieveData = function() {
-  $.ajax({url: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv", success: function(result){
-
-    var json = CSV2JSON(result);
-    $(jQuery.parseJSON(json)).each(function() {
-      var quake = new Earthquake(this);
-      earthQuakes.push(quake);
-    });
-    earthQuakes.pop();
-    displayLargestQuake();
-    displayData();
-  }});
-};
+// var getEarthQuakes = function() {
+//   $.ajax({url: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv", success: function(result){
+//
+//     var json = CSV2JSON(result);
+//     $(jQuery.parseJSON(json)).each(function() {
+//       earthQuakes.push(new Earthquake(this));
+//     });
+//     earthQuakes.pop();
+//     displayLargestQuake();
+//     displayData();
+//
+//     return earthQuakes;
+//   }});
+// };
 
 function CSVToArray(strData, strDelimiter) {
     // Check to see if the delimiter is defined. If not,
