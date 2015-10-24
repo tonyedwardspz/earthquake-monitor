@@ -61,9 +61,9 @@ gulp.task('vulcanizeFiles', function () {
 });
 
 // Watch tasks
-gulp.task('js-watch', ['scripts'], browserSync.reload);
-gulp.task('css-watch', ['styles'], browserSync.reload);
-gulp.task('html-watch', ['copy'], browserSync.reload);
+gulp.task('js-watch', ['refresh'], browserSync.reload);
+gulp.task('css-watch', ['refresh'], browserSync.reload);
+gulp.task('html-watch', ['refresh'], browserSync.reload);
 gulp.task('component-watch', ['vulcanizeFiles'], browserSync.reload);
 
 gulp.task('browser-sync', function() {
@@ -76,7 +76,16 @@ gulp.task('browser-sync', function() {
     gulp.watch(htmlFiles, ['html-watch']);
     gulp.watch(styleFiles, ['css-watch']);
     gulp.watch(scriptFiles, ['js-watch']);
+    gulp.watch('app/js/*.js', ['js-watch']);
     gulp.watch(components, ['component-watch']);
+});
+
+gulp.task('refresh',function (callback) {
+  runSequence(
+    ['scripts', 'styles'],
+    'vulcanizeFiles',
+    'copy',
+    callback);
 });
 
 gulp.task('serve', ['clean'], function (callback) {
