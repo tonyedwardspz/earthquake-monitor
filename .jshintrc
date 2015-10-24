@@ -1,3 +1,6 @@
-"globals": {
-    "$": false
+{
+  "$": false,
+  "node": true,
+  "esnext": true,
+  "elision": true
 }
