@@ -50,6 +50,11 @@ gulp.task('copy', function () {
       .pipe(gulp.dest('dist'));
 });
 
+gulp.task('copyFonts', function () {
+  return gulp.src('app/fonts/*.*')
+      .pipe(gulp.dest('dist/fonts/'));
+});
+
 gulp.task('vulcanizeFiles', function () {
     return gulp.src(components)
         .pipe(vulcanize({
@@ -84,7 +89,7 @@ gulp.task('refresh',function (callback) {
   runSequence(
     ['scripts', 'styles'],
     'vulcanizeFiles',
-    'copy',
+    ['copy', 'copyFonts'],
     callback);
 });
 
@@ -92,7 +97,7 @@ gulp.task('serve', ['clean'], function (callback) {
   runSequence(
     ['scripts', 'styles'],
     'vulcanizeFiles',
-    'copy',
+    ['copy', 'copyFonts'],
     'browser-sync',
     callback);
 });
