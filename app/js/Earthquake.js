@@ -32,23 +32,4 @@ class Earthquake {
     var m = n%100;
     return n + ((m > 10 && m < 14)? 'th' : ords[m%10] || 'th');
   }
-
-  static getLargestQuake(earthQuakes){
-    if (this.largestYet) {
-      return this.largestYet;
-    }
-
-    var largestYet;
-    for (var i = 0; i < earthQuakes.length; i++){
-      if (largestYet){
-        if (largestYet.magnitude < earthQuakes[i].magnitude) {
-          largestYet = earthQuakes[i];
-        }
-      } else {
-        largestYet = earthQuakes[i];
-      }
-    }
-    this.largestYet = largestYet;
-    return largestYet;
-  }
 }
