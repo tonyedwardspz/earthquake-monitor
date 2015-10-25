@@ -10,8 +10,7 @@ var browserSync = require('browser-sync').create();
 
 
 var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
-                   'bower_components/jquery/dist/jquery.min.js', 'compiled/*.js',
-                   'bower_components/promise-polyfill/Promise.js'];
+                   'bower_components/jquery/dist/jquery.min.js', 'compiled/*.js'];
 var styleFiles  = ['app/css/*.css'];
 var components  = ['app/elements/earthquake-map/earthquake-map.html'];
 var htmlFiles   = ['app/*.html'];
