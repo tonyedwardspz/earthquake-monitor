@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../bower_components/iron-localstorage/iron-localstorage.html">
+
 
 <dom-module id="earthquake-map">
   <template>
@@ -68,9 +70,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // this.loaded = true;
 
         var json = Helper.CSV2JSON(data);
-        var earthQuakes = JSON.parse(json);
+        this.earthQuakes = JSON.parse(json);
         populateUI(json);
         earthQuakes.pop();
+        this.backupEarthQuakes = this.earthQuakes;
         return earthQuakes
       },
       _backupLoaded: function() {
