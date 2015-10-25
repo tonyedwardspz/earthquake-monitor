@@ -20,13 +20,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
+    <iron-localstorage name="earthquake-data"
+                   on-iron-localstorage-load="_backupLoaded"
+                   value="{{backupEarthQuakes}}">
+  </iron-localstorage>
+
     <iron-ajax auto
       url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.csv"
       handle-as="text/plain"
       last-response="{{data}}"></iron-ajax>
 
     <google-map id="main-map" latitude="22" longitude="0" zoom="2" min-zoom="2">
-      <template is='dom-repeat' items="[[earthquakes]]">
+      <template is='dom-repeat' items="[[getEarthquakes]]">
         <google-map-marker latitude="[[item.latitude]]" longitude="[[item.longitude]]">
           <img src="http://placekitten.com/200/300" alt="place kitten!">
           <span>[[item.place]]</span>
@@ -44,19 +49,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
         data: {},
-        earthquakes: {
+        getEarthquakes: {
           computed: 'processData(data)'
+        },
+        earthQuakes: {
+          type: Array
+        },
+        loaded: {
+          boolean: false
         }
       },
       // Process data from ajax-call. Return to main app for processing and
       // then return for internal use.
       processData: function(data){
-        var earthQuakes = [];
+        // if (earthQuakes.length > 1 && loaded){
+        //   return earthQuakes
+        // }
+        // this.loaded = true;
+
         var json = Helper.CSV2JSON(data);
         var earthQuakes = JSON.parse(json);
         populateUI(json);
         earthQuakes.pop();
         return earthQuakes
+      },
+      _backupLoaded: function() {
+        this.earthQuakes = this.backupEarthQuakes.slice();
       }
     });
   })();

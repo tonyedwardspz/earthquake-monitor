@@ -35,7 +35,6 @@ var displayStats = function() {
   var twentyFourHours = new Date();
   twentyFourHours.setDate(twentyFourHours.getDate()-1);
 
-
   var oneHour = new Date();
   oneHour.setDate(oneHour.getDay()-1);
 
@@ -44,7 +43,6 @@ var displayStats = function() {
   var hourOfQuakes = [];
   earthQuakes.forEach(function(quake) {
     var quakeDate = new Date(quake.time);
-    console.log(quakeDate);
     if (quakeDate >= oneHour) {
       hourOfQuakes.push(quake);
     }
@@ -54,6 +52,6 @@ var displayStats = function() {
   });
 
   document.getElementById('one-day').innerHTML = dayOfQuakes.length;
-
+  
   document.getElementById('one-hour').innerHTML = hourOfQuakes.length;
 };

@@ -19,6 +19,7 @@
     "google-map": "GoogleWebComponents/google-map#~1.1.4",
     "jquery": "2.1.4",
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.6",
-    "mediator-data": "marcus7777/mediator-data"
+    "mediator-data": "marcus7777/mediator-data",
+    "iron-localstorage": "PolymerElements/iron-localstorage#~1.0.4"
   }
 }
