@@ -25,8 +25,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-localstorage name="earthquake-data"
                    on-iron-localstorage-load="_backupLoaded"
                    value="{{backupEarthQuakes}}">
-  </iron-localstorage>
+    </iron-localstorage>
 
+    <!-- url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.csv" -->
     <iron-ajax auto
       url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.csv"
       handle-as="text/plain"
@@ -72,12 +73,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var json = Helper.CSV2JSON(data);
         this.earthQuakes = JSON.parse(json);
         populateUI(json);
-        earthQuakes.pop();
+        this.earthQuakes.pop();
         this.backupEarthQuakes = this.earthQuakes;
-        return earthQuakes
+        return this.earthQuakes
       },
       _backupLoaded: function() {
-        this.earthQuakes = this.backupEarthQuakes.slice();
+        //this.earthQuakes = this.backupEarthQuakes.slice();
       }
     });
   })();
