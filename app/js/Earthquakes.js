@@ -44,6 +44,10 @@ class Earthquakes {
     return quakes;
   }
 
+  getEarthQuakes() {
+    return this.earthquakes;
+  }
+
   getLargestQuake(days){
     // Check the cache
     if (days === 7 && this.largestYet.time) {
