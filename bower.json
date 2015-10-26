@@ -16,8 +16,10 @@
   ],
   "dependencies": {
     "webcomponentsjs": "~0.7.15",
-    "google-map": "GoogleWebComponents/google-map#~1.1.4",
     "jquery": "2.1.4",
     "iron-ajax": "PolymerElements/iron-ajax#~1.0.6",
+    "bootstrap": "~3.3.5",
+    "datamaps": "https://github.com/markmarkoh/datamaps",
+    "iron-localstorage": "PolymerElements/iron-localstorage#~1.0.4"
   }
 }

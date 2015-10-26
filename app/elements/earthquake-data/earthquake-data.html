@@ -1,0 +1,54 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-localstorage/iron-localstorage.html">
+
+
+<dom-module id="earthquake-data">
+  <template>
+    <iron-localstorage name="earthquake-data"
+                   on-iron-localstorage-load="_backupLoaded"
+                   value="{{backupEarthQuakes}}">
+    </iron-localstorage>
+
+    <iron-ajax auto
+      url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.csv"
+      handle-as="text"
+      last-response="{{data}}"></iron-ajax>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'earthquake-data',
+
+      properties: {
+        data: {},
+        getEarthquakes: {
+          computed: 'processData(data)'
+        },
+        earthQuakes: {
+          type: Array
+        },
+        loaded: {
+          boolean: false
+        }
+      },
+      // Process data from ajax-call. Return to main app for processing and
+      // then return for internal use.
+      processData: function(data){
+        var json = Helper.CSV2JSON(data);
+        this.earthQuakes = JSON.parse(json);
+        populateUI(json);
+        this.earthQuakes.pop();
+        this.backupEarthQuakes = this.earthQuakes;
+        return this.earthQuakes
+      },
+      _backupLoaded: function() {
+        this.earthQuakes = this.backupEarthQuakes.slice();
+      }
+    });
+  })();
+  </script>
+</dom-module>

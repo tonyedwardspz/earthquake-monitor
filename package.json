@@ -4,6 +4,7 @@
   "description": "A gloabal earthquake monitoring app",
   "main": "index.js",
   "dependencies": {
+    "bootstrap": "^3.3.5",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.3.0",
     "gulp-concat": "^2.6.0"

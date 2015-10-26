@@ -10,10 +10,14 @@ var browserSync = require('browser-sync').create();
 
 
 var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
-                   'bower_components/jquery/dist/jquery.min.js', 'compiled/*.js'];
-var styleFiles  = ['app/css/*.css'];
-var components  = ['app/elements/earthquake-map/earthquake-map.html'];
+                   'bower_components/jquery/dist/jquery.min.js',
+                   'bower,components/bootstrap/dist/js/bootstrap.min.css',
+                   'compiled/*.js'];
+var styleFiles  = ['bower_components/bootstrap/dist/css/bootstrap.min.css',
+                   'app/css/*.css'];
+var components  = ['app/elements/earthquake-data/earthquake-data.html'];
 var htmlFiles   = ['app/*.html'];
+var fontFiles   = ['bower_components/bootstrap/dist/fonts/*.*'];
 
 
 gulp.task('clean', function(){
@@ -22,11 +26,11 @@ gulp.task('clean', function(){
 });
 
 gulp.task('scripts',['babel', 'clean'], function () {
-  return gulp.src(scriptFiles) //get all js files under the src
-      .pipe(sourceMaps.init()) //initialize source mapping
+  return gulp.src(scriptFiles)
+      .pipe(sourceMaps.init())
       .pipe(concat('scripts.js'))
-      .pipe(sourceMaps.write('.')) //write source maps
-      .pipe(gulp.dest('dist/js/')); //pipe to the destination folder
+      .pipe(sourceMaps.write('.'))
+      .pipe(gulp.dest('dist/js/'));
 });
 
 gulp.task('babel', function () {
@@ -50,7 +54,7 @@ gulp.task('copy', function () {
 });
 
 gulp.task('copyFonts', function () {
-  return gulp.src('app/fonts/*.*')
+  return gulp.src(fontFiles)
       .pipe(gulp.dest('dist/fonts/'));
 });
 
