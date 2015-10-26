@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handle-as="text/plain"
       last-response="{{data}}"></iron-ajax>
 
-    <google-map id="main-map" latitude="22" longitude="0" zoom="2" min-zoom="2">
+    <google-map id="main-map" latitude="22" longitude="0" zoom="1" min-zoom="1">
       <template is='dom-repeat' items="[[getEarthquakes]]">
         <google-map-marker latitude="[[item.latitude]]" longitude="[[item.longitude]]">
           <img src="http://placekitten.com/200/300" alt="place kitten!">

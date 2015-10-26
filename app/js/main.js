@@ -19,8 +19,11 @@ var populateUI = function(data) {
 };
 
 var displayLargestQuake = function(){
-  let description = earthQuakeData.getLargestQuake().getDescription();
-  $("#largestQuake").append(`BIGGEST RECENT QUAKE: ${description}`);
+  let largestIn7 = earthQuakeData.getLargestQuake(7).getDescription();
+  $("#largestQuake7").append(largestIn7);
+
+  let largestIn30 = earthQuakeData.getLargestQuake(30).getDescription();
+  $("#largestQuake30").append(largestIn30);
 };
 
 var displayStats = function() {
