@@ -6,6 +6,8 @@ $(document).ready(function(){
       $(this).find('em:first').toggleClass("glyphicon-minus");
   });
   $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+
+  var map = new Datamap({element: document.getElementById('map-container')});
 });
 
 $(window).on('resize', function () {
