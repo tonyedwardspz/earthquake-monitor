@@ -101,7 +101,7 @@ gulp.task('refresh',function (callback) {
   runSequence(
     ['scripts', 'styles'],
     'vulcanizeFiles',
-    ['copy', 'copyFonts'],
+    ['copy', 'copyFonts', 'copyFiles'],
     callback);
 });
 
