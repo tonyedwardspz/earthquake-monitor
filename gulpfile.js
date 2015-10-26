@@ -11,7 +11,7 @@ var browserSync = require('browser-sync').create();
 
 var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
                    'bower_components/jquery/dist/jquery.min.js',
-                   'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                   'bower_components/bootstrap/js/collapse.js',
                    'bower_components/d3/d3.min.js',
                    'bower_components/topojson/topojson.js',
                    'bower_components/datamaps/dist/datamaps.world.min.js',
