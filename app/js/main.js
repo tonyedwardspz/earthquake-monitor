@@ -1,5 +1,6 @@
 
 var earthQuakeData;
+var map;
 
 $(document).ready(function(){
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
@@ -7,7 +8,7 @@ $(document).ready(function(){
   });
   $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
 
-  var map = new Datamap({element: document.getElementById('map-container')});
+  // var map = new Datamap({element: document.getElementById('map-container')});
 });
 
 $(window).on('resize', function () {
@@ -17,6 +18,51 @@ $(window).on('resize', function () {
     if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide');
   }
 });
+
+var buildMap = function(earthQuakes) {
+  var quakeMap = new Datamap({
+    element: document.getElementById('map-container'),
+    scope: 'world',
+    geographyConfig: {
+        popupOnHover: false,
+        highlightOnHover: false
+    },
+    bubblesConfig: {
+      //animate: false,
+      borderColor: '#000',
+      borderWidth: 1,
+      fillOpacity: 1.0,
+      filterKey: 'dropShadow',
+      popupTemplate: function(geography, data) {
+        return '<div class="hoverinfo">Some From New: data about ' + data.centered + '</div>';
+      }
+    },
+    fills: {
+      'defaultFill': '#dddddd',
+      'good': 'url(#good)',
+      'medium': 'url(#medium)',
+      'bad': 'url(#bad)',
+      'horizontalStripe': 'url(#horizontal-stripe)',
+      'diagonalStripe': 'url(#diagonal-stripe)'
+    },
+    filters: {
+      'dropShadow': 'url(#dropShadow)',
+      'bigShadow': 'url(#bigShadow)'
+    },
+    data:{
+      'TX': {fillKey: 'diagonalStripe'}
+    }
+  });
+
+  quakeMap.bubbles(earthQuakes, {
+    popupTemplate: function (geo, data) {
+            return ['<div class="hoverinfo">' +  data.name,
+            '<br/>Payload: ' +  data.place + ' kilotons',
+            '</div>'].join('');
+    }
+  });
+  //return quakeMap;
+};
 
 var populateUI = function(data) {
   var earthQuakes = [];
@@ -29,6 +75,7 @@ var populateUI = function(data) {
 
   displayLargestQuake();
   displayStats();
+  buildMap(earthQuakes);
 };
 
 var displayLargestQuake = function(){

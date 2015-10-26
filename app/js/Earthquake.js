@@ -10,6 +10,7 @@ class Earthquake {
     this.magnitude = data.mag;
     this.place = data.place;
     this.type = data.type;
+    this.radius = 10;
   }
 
   getDescription(){
