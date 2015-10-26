@@ -8,6 +8,7 @@ class Earthquakes {
     this.earthquakes24 = [];
     this.earthquakesHour = [];
     this.largestYet = {};
+    this.largestYet30 = {};
   }
 
   getNumberOfQuakes(num) {
@@ -43,23 +44,41 @@ class Earthquakes {
     return quakes;
   }
 
-  getLargestQuake(){
-    if (this.largestYet.time) {
+  getLargestQuake(days){
+    // Check the cache
+    if (days === 7 && this.largestYet.time) {
       return this.largestYet;
+    } else if (days == 30 && this.largestYet30.time) {
+      return this.largestYet30;
     }
 
+    // Fetch the appropriate data
+    var quakePeriod = [];
+    if (days === 30) {
+      quakePeriod = this.getLastThirtyDays();
+    } else {
+      quakePeriod = this.getLastSevenDays();
+    }
+
+    // find the largest quake
     var largestYet;
-    for (var i = 0; i < this.earthquakes.length; i++){
+    for (var i = 0; i < quakePeriod.length; i++){
       if (largestYet){
-        if (largestYet.magnitude < this.earthquakes[i].magnitude) {
-          largestYet = this.earthquakes[i];
+        if (largestYet.magnitude < quakePeriod.magnitude) {
+          largestYet = quakePeriod[i];
         }
       } else {
-        largestYet = this.earthquakes[i];
+        largestYet = quakePeriod[i];
       }
     }
-    this.largestYet = largestYet;
-    console.log("Keys");
+
+    // Cache the local variable
+    if (days === 7) {
+      this.largestYet = largestYet;
+    } else {
+      this.largestYet30 = largestYet;
+    }
+
     return largestYet;
   }
 
