@@ -11,13 +11,17 @@ var browserSync = require('browser-sync').create();
 
 var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
                    'bower_components/jquery/dist/jquery.min.js',
-                   'bower,components/bootstrap/dist/js/bootstrap.min.css',
+                   'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                   'bower_components/d3/d3.min.js',
+                   'bower_components/topojson/topojson.js',
+                   'bower_components/datamaps/dist/datamaps.world.min.js',
                    'compiled/*.js'];
 var styleFiles  = ['bower_components/bootstrap/dist/css/bootstrap.min.css',
                    'app/css/*.css'];
 var components  = ['app/elements/earthquake-data/earthquake-data.html'];
 var htmlFiles   = ['app/*.html'];
 var fontFiles   = ['bower_components/bootstrap/dist/fonts/*.*'];
+var copyFiles   = ['bower_components/promise-polyfill/Promise.js'];
 
 
 gulp.task('clean', function(){
@@ -56,6 +60,11 @@ gulp.task('copy', function () {
 gulp.task('copyFonts', function () {
   return gulp.src(fontFiles)
       .pipe(gulp.dest('dist/fonts/'));
+});
+
+gulp.task('copyFiles', function () {
+  return gulp.src(copyFiles)
+      .pipe(gulp.dest('dist/bower_components/promise-polyfill/'));
 });
 
 gulp.task('vulcanizeFiles', function () {
@@ -100,7 +109,7 @@ gulp.task('serve', ['clean'], function (callback) {
   runSequence(
     ['scripts', 'styles'],
     'vulcanizeFiles',
-    ['copy', 'copyFonts'],
+    ['copy', 'copyFonts', 'copyFiles'],
     'browser-sync',
     callback);
 });
