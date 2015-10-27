@@ -87,20 +87,35 @@ class Earthquakes {
   }
 
   getEarthQuakesPerDay() {
-    var data = {date: [], value: []};
-
-    for(var i = 0; i < 5; i++){
-      data.date[i] = Date.now();
-      data.value[i] = i;
-    }
-    console.log(data);
-
+    var sortedQuakes = {key: [], value: []};
+    var thisKeyCounter = 0;
     // loop over the entire earthquake data array
     this.earthquakes.forEach(function(quake){
-      // pick out each days
 
-      // count the number of entries for that day & save to object
+      // get the quake time
+      var quakeTime = new Date(quake.time).toDateString();
+
+      // get the correct key
+      var currentKey;
+      if (sortedQuakes.key.length === 0) {
+        currentKey = quakeTime;
+        sortedQuakes.key.push(quakeTime);
+      } else {
+        currentKey = sortedQuakes.key[sortedQuakes.key.length-1];
+      }
+
+      if (quakeTime == currentKey) {
+        thisKeyCounter++;
+      } else {
+        sortedQuakes.value.push(thisKeyCounter);
+        sortedQuakes.key.push(quakeTime);
+        thisKeyCounter = 0;
+      }
     });
+
+    sortedQuakes.key.pop();
+
+    return sortedQuakes;
   }
 
   // get the last hour of action
