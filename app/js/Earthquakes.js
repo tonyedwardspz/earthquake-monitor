@@ -86,6 +86,23 @@ class Earthquakes {
     return largestYet;
   }
 
+  getEarthQuakesPerDay() {
+    var data = {date: [], value: []};
+
+    for(var i = 0; i < 5; i++){
+      data.date[i] = Date.now();
+      data.value[i] = i;
+    }
+    console.log(data);
+
+    // loop over the entire earthquake data array
+    this.earthquakes.forEach(function(quake){
+      // pick out each days
+
+      // count the number of entries for that day & save to object
+    });
+  }
+
   // get the last hour of action
   getLastHour() {
     // return cache if exist
