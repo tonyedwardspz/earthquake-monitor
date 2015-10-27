@@ -19,7 +19,7 @@ var scriptFiles = ['bower_components/webcomponentsjs/webcomponents.min.js',
 var styleFiles  = ['bower_components/bootstrap/dist/css/bootstrap.min.css',
                    'app/css/*.css'];
 var components  = ['app/elements/earthquake-data/earthquake-data.html'];
-var htmlFiles   = ['app/*.html'];
+var htmlFiles   = ['app/*.html','app/*.tsv'];
 var fontFiles   = ['bower_components/bootstrap/dist/fonts/*.*'];
 var copyFiles   = ['bower_components/promise-polyfill/Promise.js'];
 
