@@ -90,7 +90,7 @@ var createBarChart = function() {
         .scale(xScale)
         .orient('bottom')
         .tickValues(xScale.domain().filter(function(d, i) {
-          return !(i % 10);
+          return (i % 10) ? true : false;
         }));
 
   var xGuide = d3.select('svg')
