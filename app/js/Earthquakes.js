@@ -89,14 +89,15 @@ class Earthquakes {
   getEarthQuakesPerDay() {
     var sortedQuakes = {key: [], value: []};
     var thisKeyCounter = 0;
+
     // loop over the entire earthquake data array
     this.earthquakes.forEach(function(quake){
 
       // get the quake time
-      var quakeTime = new Date(quake.time).toDateString();
+      let quakeTime = new Date(quake.time).toDateString();
 
       // get the correct key
-      var currentKey;
+      let currentKey;
       if (sortedQuakes.key.length === 0) {
         currentKey = quakeTime;
         sortedQuakes.key.push(quakeTime);
@@ -107,6 +108,7 @@ class Earthquakes {
       if (quakeTime == currentKey) {
         thisKeyCounter++;
       } else {
+        console.log(`${thisKeyCounter} - ${quakeTime}`);
         sortedQuakes.value.push(thisKeyCounter);
         sortedQuakes.key.push(quakeTime);
         thisKeyCounter = 0;
@@ -114,6 +116,7 @@ class Earthquakes {
     });
 
     sortedQuakes.key.pop();
+    console.log(sortedQuakes);
 
     return sortedQuakes;
   }
