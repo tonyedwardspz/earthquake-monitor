@@ -9,17 +9,14 @@ $(document).ready(function(){
 });
 
 var createBarChart = function() {
-  var data = earthQuakeData.getEarthQuakesPerDay();
-  var darData = data.value;
+  var data = earthQuakeData.getEarthQuakesPerDay(),
+      darData = data.value;
 
-  var tempColor;
-
-  var margin = { top: 30, right: 30, bottom: 30, left: 30 };
-
-  var oWidth = 600,
-      oHeight = 300;
-
-  var width = oWidth - margin.top - margin.bottom,
+  var tempColor,
+      margin = { top: 30, right: 30, bottom: 30, left: 30 },
+      oWidth = $('#bar-chart-container').width(),
+      oHeight = 400,
+      width = oWidth - margin.top - margin.bottom,
       height = oHeight - margin.left - margin.right;
 
   var yScale = d3.scale.linear()
@@ -30,42 +27,39 @@ var createBarChart = function() {
     .domain(d3.range(0, darData.length))
     .rangeBands([0, width], 0.2);
 
-  var colors = d3.scale.linear()
-    .domain([0, darData.length])
-    .range(['#3498db', '#c0392b']);
-
   var tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip');
 
+  // Create the bar chart
   var chart = d3.select('#quake-bar-chart')
     .append('svg')
     .attr('width', oWidth)
     .attr('height', oHeight)
+
+    // Add the bars
     .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')')
-    .selectAll('rect').data(darData)
+    .selectAll('rect')
+    .data(darData)
     .enter().append('rect')
-    .style('fill', function(d, i) { return colors(i); })
+    .attr('class', 'bar')
     .attr('width', xScale.rangeBand())
     .attr('height', 0)
     .attr('x', function(d, i) { return xScale(i); })
     .attr('y', height)
+
+    // Show tooltip
     .on('mouseover', function(d) {
       tooltip.transition()
         .style('opacity', 0.9);
       tooltip.html(d)
         .style('left', (d3.event.pageX - 35) + 'px')
         .style('top', (d3.event.pageY) + 'px');
-      tempColor = this.style.fill;
-      d3.select(this)
-        .style('opacity', '.5')
-        .style('fill', '#f1c40f');
     })
+
+    // Hide tooltip
     .on('mouseout', function(d) {
       tooltip.style('opacity', 0);
-      d3.select(this)
-        .style('opacity', '1')
-        .style('fill', tempColor);
     });
 
     chart.transition()
@@ -76,7 +70,7 @@ var createBarChart = function() {
          .ease('elastic');
 
   var yAxis = d3.svg.axis()
-        .scale(yGuideScale)
+        .scale(yScale)
         .orient('left')
         .ticks(10);
 
@@ -84,7 +78,7 @@ var createBarChart = function() {
         .append('g')
         .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-    yAxis(yGuide);
+  yAxis(yGuide);
 
   var xAxis = d3.svg.axis()
         .scale(xScale)

@@ -9,24 +9,18 @@
 
 /****************** Bar Chart Stuff *****************/
 .bar {
-  fill: steelblue;
+  fill: rgba(48, 164, 255, 0.2);
+  stroke: rgba(48, 164, 255, 0.8);
+  stroke-width: 1;
 }
 
 .bar:hover {
-  fill: brown;
+  fill: rgba(48, 164, 255, 0.75);
+  stroke: rgba(48, 164, 255, 1);
+  stroke-width: 1
 }
 
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
+.tooltip{
+  padding:5px;
+  background: #fff;
 }
