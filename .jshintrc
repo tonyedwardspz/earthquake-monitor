@@ -2,5 +2,9 @@
   "$": false,
   "node": true,
   "esnext": true,
-  "elision": true
+  "elision": true,
+  "predef": {
+    "navigator": true,
+    "window": true
+  }
 }
