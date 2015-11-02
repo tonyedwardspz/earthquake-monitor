@@ -12,11 +12,51 @@ $(document).ready(function(){
 
   getLocation().then(function(location) {
     console.log("Success!", location);
-  }, function(error) {
-    console.error("Failed!", error);
+    return location;
+  }).then(function(location) {
+    return `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location[0]},${location[1]}`;
+  }).then(function(url){
+    return makeRequest(url);
+  }).then(function(response){
+    return JSON.parse(response);
+  }).then(function(json){
+    var locationDescription = json.results[4].formatted_address;
+    var el = document.getElementById('closestQuake');
+    el.innerHTML = `Location: ${locationDescription}`;
   });
 
 });
+
+var makeRequest = function(url) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function() {
+      // This is called even on 404 etc
+      // so check the status
+      if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+      }
+      else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+      }
+    };
+
+    // Handle network errors
+    req.onerror = function() {
+      reject(Error("Network Error"));
+    };
+
+    // Make the request
+    req.send();
+  });
+};
 
 var getLocation = function(url) {
   // Return a new promise.
