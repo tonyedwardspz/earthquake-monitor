@@ -1,12 +1,36 @@
 var earthQuakeData;
 var map;
+var user;
 
 $(document).ready(function(){
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
       $(this).find('em:first').toggleClass("glyphicon-minus");
   });
   $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+
+  // user = new User();
+
+  getLocation().then(function(location) {
+    console.log("Success!", location);
+  }, function(error) {
+    console.error("Failed!", error);
+  });
+
 });
+
+var getLocation = function(url) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(geo){
+        resolve([geo.coords.latitude, geo.coords.longitude]);
+      });
+    } else {
+      reject(Error("Get Location: No geo available"));
+    }
+  });
+};
 
 var createBarChart = function() {
   var data = earthQuakeData.getEarthQuakesPerDay(),
@@ -62,6 +86,7 @@ var createBarChart = function() {
       tooltip.style('opacity', 0);
     });
 
+    // Add fancy fade in effects
     chart.transition()
          .attr('height', function(d) { return yScale(d); })
          .attr('y', function(d) { return (height - yScale(d)); })
@@ -69,29 +94,13 @@ var createBarChart = function() {
          .duration(1000)
          .ease('elastic');
 
-  var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left')
-        .ticks(10);
-
-  var yGuide = d3.select('svg')
-        .append('g')
-        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-  yAxis(yGuide);
-
   var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom')
-        .tickValues(xScale.domain().filter(function(d, i) {
-          return (i % 10) ? true : false;
-        }));
+      .scale(xScale)
+      .orient('bottom');
 
-  var xGuide = d3.select('svg')
-        .append('g')
-        .attr('transform', 'translate(' + margin.left + ', ' + (height + margin.top) + ' )');
-
-  xAxis(xGuide);
+  chart.append('g')
+    .attr('class', 'xaxis')
+    .call(xAxis);
 };
 
 $(window).on('resize', function () {
@@ -115,10 +124,7 @@ var buildMap = function(earthQuakes) {
       borderColor: '#000',
       borderWidth: 1,
       fillOpacity: 1.0,
-      filterKey: 'dropShadow',
-      popupTemplate: function(geography, data) {
-        return '<div class="hoverinfo">Some From New: data about ' + data.centered + '</div>';
-      }
+      filterKey: 'dropShadow'
     },
     fills: {
       'defaultFill': '#dddddd',
@@ -139,9 +145,8 @@ var buildMap = function(earthQuakes) {
 
   quakeMap.bubbles(earthQuakes, {
     popupTemplate: function (geo, data) {
-            return ['<div class="hoverinfo">' +  data.name,
-            '<br/>Payload: ' +  data.place + ' kilotons',
-            '</div>'].join('');
+            return `<div class="hoverinfo">${data.magnitude} magnitude
+                   <br/>Payload: ${data.place} kilotons </div>`;
     }
   });
   //return quakeMap;
