@@ -5,6 +5,7 @@
   "elision": true,
   "predef": {
     "navigator": true,
-    "window": true
+    "window": true,
+    "Helper": true
   }
 }
