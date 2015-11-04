@@ -10,10 +10,8 @@ $(document).ready(function(){
   });
   $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
 
-  // user = new User();
-
-  makeRequest(dataURL).then(function(data){
-    processData(data);
+  DataHelper.makeRequest(dataURL).then(function(data){
+    populateUI(DataHelper.processData(data));
   });
 
   getLocation().then(function(location) {
@@ -23,7 +21,7 @@ $(document).ready(function(){
   }).then(function(location) {
     return `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location[0]},${location[1]}`;
   }).then(function(url){
-    return makeRequest(url);
+    return DataHelper.makeRequest(url);
   }).then(function(response){
     return JSON.parse(response);
   }).then(function(json){
@@ -33,14 +31,6 @@ $(document).ready(function(){
   });
 
 });
-
-var processData = function(data){
-  var json = Helper.CSV2JSON(data);
-  earthQuakeData = JSON.parse(json);
-  populateUI(earthQuakeData);
-
-  return earthQuakeData;
-};
 
 var populateUI = function(data) {
   var earthQuakes = [];
@@ -59,30 +49,6 @@ var populateUI = function(data) {
   var closestQuake = earthQuakeData.getClosestQuake(location);
   console.log("---------------");
   console.log(closestQuake[0]);
-};
-
-var makeRequest = function(url) {
-
-  return new Promise(function(resolve, reject) {
-
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-
-    req.onload = function() {
-      if (req.status == 200) {
-        resolve(req.response);
-      }
-      else {
-        reject(Error(req.statusText));
-      }
-    };
-
-    req.onerror = function() {
-      reject(Error("Network Error"));
-    };
-
-    req.send();
-  });
 };
 
 var getLocation = function(url) {
