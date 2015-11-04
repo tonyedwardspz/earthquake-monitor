@@ -6,6 +6,7 @@
   "predef": {
     "navigator": true,
     "window": true,
-    "Helper": true
+    "Helper": true,
+    "XMLHttpRequest": true
   }
 }
