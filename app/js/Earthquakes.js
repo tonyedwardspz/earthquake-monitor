@@ -46,15 +46,13 @@ class Earthquakes {
     return this.earthquakes;
   }
 
-  getClosestQuake(userLocation) {
+  getClosestQuake(user) {
     let quakes = this.earthquakes;
     let closestQuake = [{},];
 
-    console.log(userLocation);
-
     for(var quake of quakes){
 
-      var distance = Helper.comapreDistance(userLocation[0], userLocation[1],
+      var distance = Helper.comapreDistance(user.latitude, user.longitude,
                                             quake.latitude, quake.longitude);
 
       if (Object.getOwnPropertyNames(closestQuake[0]).length === 0) {

@@ -5,6 +5,7 @@ var userLocation;
 const dataURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.csv";
 
 $(document).ready(function(){
+
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
       $(this).find('em:first').toggleClass("glyphicon-minus");
   });
@@ -15,8 +16,7 @@ $(document).ready(function(){
   });
 
   getLocation().then(function(location) {
-    userLocation = location;
-    console.log(userLocation);
+    user = new User(location);
     return location;
   }).then(function(location) {
     return `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location[0]},${location[1]}`;
@@ -25,15 +25,15 @@ $(document).ready(function(){
   }).then(function(response){
     return JSON.parse(response);
   }).then(function(json){
-    var locationDescription = json.results[4].formatted_address;
-    var el = document.getElementById('closestQuake');
-    el.innerHTML = `Location: ${locationDescription}`;
+    let locationDescription = json.results[4].formatted_address;
+    document.getElementById('closestQuake').innerHTML =
+      `Location: ${locationDescription}`;
   });
 
 });
 
 var populateUI = function(data) {
-  var earthQuakes = [];
+  let earthQuakes = [];
 
   data.forEach(function(quake){
     earthQuakes.push(new Earthquake(quake));
@@ -46,7 +46,7 @@ var populateUI = function(data) {
   displayStats();
   buildMap(earthQuakes);
   createBarChart();
-  var closestQuake = earthQuakeData.getClosestQuake(location);
+  let closestQuake = earthQuakeData.getClosestQuake(user);
   console.log("---------------");
   console.log(closestQuake[0]);
 };
