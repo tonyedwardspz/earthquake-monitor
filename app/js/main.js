@@ -2,6 +2,7 @@ var earthQuakeData;
 var map;
 var user;
 var userLocation;
+const dataURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.csv";
 
 $(document).ready(function(){
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
@@ -10,6 +11,10 @@ $(document).ready(function(){
   $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
 
   // user = new User();
+
+  makeRequest(dataURL).then(function(data){
+    processData(data);
+  });
 
   getLocation().then(function(location) {
     userLocation = location;
@@ -28,6 +33,33 @@ $(document).ready(function(){
   });
 
 });
+
+var processData = function(data){
+  var json = Helper.CSV2JSON(data);
+  earthQuakeData = JSON.parse(json);
+  populateUI(earthQuakeData);
+
+  return earthQuakeData;
+};
+
+var populateUI = function(data) {
+  var earthQuakes = [];
+
+  data.forEach(function(quake){
+    earthQuakes.push(new Earthquake(quake));
+  });
+
+  earthQuakes.pop();
+  earthQuakeData = new Earthquakes(earthQuakes);
+
+  displayLargestQuake();
+  displayStats();
+  buildMap(earthQuakes);
+  createBarChart();
+  var closestQuake = earthQuakeData.getClosestQuake(location);
+  console.log("---------------");
+  console.log(closestQuake[0]);
+};
 
 var makeRequest = function(url) {
 
@@ -185,24 +217,6 @@ var buildMap = function(earthQuakes) {
     }
   });
   //return quakeMap;
-};
-
-var populateUI = function(data) {
-  var earthQuakes = [];
-
-  $(jQuery.parseJSON(data)).each(function() {
-    earthQuakes.push(new Earthquake(this));
-  });
-  earthQuakes.pop();
-  earthQuakeData = new Earthquakes(earthQuakes);
-
-  displayLargestQuake();
-  displayStats();
-  buildMap(earthQuakes);
-  createBarChart();
-  var closestQuake = earthQuakeData.getClosestQuake(location);
-  console.log("---------------");
-  console.log(closestQuake[0]);
 };
 
 var displayLargestQuake = function(){
