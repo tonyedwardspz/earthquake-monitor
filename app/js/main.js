@@ -1,6 +1,7 @@
 var earthQuakeData;
 var map;
 var user;
+var userLocation;
 
 $(document).ready(function(){
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
@@ -11,7 +12,8 @@ $(document).ready(function(){
   // user = new User();
 
   getLocation().then(function(location) {
-    console.log("Success!", location);
+    userLocation = location;
+    console.log(userLocation);
     return location;
   }).then(function(location) {
     return `http://maps.googleapis.com/maps/api/geocode/json?latlng=${location[0]},${location[1]}`;
@@ -28,32 +30,25 @@ $(document).ready(function(){
 });
 
 var makeRequest = function(url) {
-  // Return a new promise.
+
   return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
+
     var req = new XMLHttpRequest();
     req.open('GET', url);
 
     req.onload = function() {
-      // This is called even on 404 etc
-      // so check the status
       if (req.status == 200) {
-        // Resolve the promise with the response text
         resolve(req.response);
       }
       else {
-        // Otherwise reject with the status text
-        // which will hopefully be a meaningful error
         reject(Error(req.statusText));
       }
     };
 
-    // Handle network errors
     req.onerror = function() {
       reject(Error("Network Error"));
     };
 
-    // Make the request
     req.send();
   });
 };
@@ -205,6 +200,9 @@ var populateUI = function(data) {
   displayStats();
   buildMap(earthQuakes);
   createBarChart();
+  var closestQuake = earthQuakeData.getClosestQuake(location);
+  console.log("---------------");
+  console.log(closestQuake[0]);
 };
 
 var displayLargestQuake = function(){

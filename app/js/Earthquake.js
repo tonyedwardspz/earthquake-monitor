@@ -11,16 +11,25 @@ class Earthquake {
     this.place = data.place;
     this.type = data.type;
     this.radius = 10;
+    this._distance = 0;
   }
 
-  getDescription(){
+  get distance() {
+    return this._distance;
+  }
+
+  set distance(dist) {
+    this._distance = dist;
+  }
+
+  getDescription() {
     return `There was a ${this.magnitude} magnitude earthquake ${this.place}  on the ${this.getDate(this.time)}`;
   }
 
-  getDate(d){
-    var date = new Date(d);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var formatted = this.addOrd(date.getDate()) + ' ' +
+  getDate(d) {
+    let date = new Date(d);
+    let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let formatted = this.addOrd(date.getDate()) + ' ' +
                     months[date.getMonth()] + ' ' +
                     date.getFullYear() + ' at ' +
                     date.getHours() + ':' + ('0' +
@@ -29,8 +38,8 @@ class Earthquake {
   }
 
   addOrd(n) {
-    var ords = [,'st','nd','rd'];
-    var m = n%100;
+    let ords = [,'st','nd','rd'];
+    let m = n%100;
     return n + ((m > 10 && m < 14)? 'th' : ords[m%10] || 'th');
   }
 }

@@ -12,7 +12,6 @@ class Earthquakes {
   }
 
   getNumberOfQuakes(num) {
-    console.log("get number of quakes");
     var quakes = [];
     switch (num){
       case 1:
@@ -30,7 +29,6 @@ class Earthquakes {
       default:
         quakes = this.earthquakes;
     }
-    console.log(quakes.length);
     return quakes.length;
   }
 
@@ -46,6 +44,31 @@ class Earthquakes {
 
   getEarthQuakes() {
     return this.earthquakes;
+  }
+
+  getClosestQuake(userLocation) {
+    let quakes = this.earthquakes;
+    let closestQuake = [{},];
+
+    console.log(userLocation);
+
+    for(var quake of quakes){
+
+      var distance = Helper.comapreDistance(userLocation[0], userLocation[1],
+                                            quake.latitude, quake.longitude);
+
+      if (Object.getOwnPropertyNames(closestQuake[0]).length === 0) {
+        // console.log(distance);
+        quake.distance = distance;
+        closestQuake[0] = quake;
+        closestQuake[1] = distance;
+      } else if (distance < closestQuake[1]){
+        quake.distance = distance;
+        closestQuake[0] = quake;
+        closestQuake[1] = distance;
+      }
+    }
+    return closestQuake;
   }
 
   getLargestQuake(days){
@@ -108,7 +131,6 @@ class Earthquakes {
       if (quakeTime == currentKey) {
         thisKeyCounter++;
       } else {
-        console.log(`${thisKeyCounter} - ${quakeTime}`);
         sortedQuakes.value.push(thisKeyCounter);
         sortedQuakes.key.push(quakeTime);
         thisKeyCounter = 0;
@@ -116,7 +138,6 @@ class Earthquakes {
     });
 
     sortedQuakes.key.pop();
-    console.log(sortedQuakes);
 
     return sortedQuakes;
   }
