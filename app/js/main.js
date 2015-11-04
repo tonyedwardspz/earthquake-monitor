@@ -2,6 +2,7 @@ var earthQuakeData;
 var map;
 var user;
 var userLocation;
+const dataURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.csv";
 
 $(document).ready(function(){
   $(document).on("click","ul.nav li.parent > a > span.icon", function(){
